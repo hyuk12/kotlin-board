@@ -32,11 +32,11 @@ dependencies {
     implementation("com.linecorp.kotlin-jdsl:jpql-dsl:3.5.4")
     implementation("com.linecorp.kotlin-jdsl:jpql-render:3.5.4")
     implementation("com.linecorp.kotlin-jdsl:spring-data-jpa-support:3.5.4")
-    runtimeOnly("com.h2database:h2")
     runtimeOnly("com.mysql:mysql-connector-j")
 
     // kotest
     testImplementation("io.kotest:kotest-assertions-core:5.9.1")
+    testRuntimeOnly("com.h2database:h2")
     testImplementation("io.kotest:kotest-runner-junit5:5.9.1")
     testImplementation("io.kotest.extensions:kotest-extensions-spring:1.3.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
