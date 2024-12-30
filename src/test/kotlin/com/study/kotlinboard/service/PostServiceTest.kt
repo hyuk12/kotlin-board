@@ -1,6 +1,7 @@
 package com.study.kotlinboard.service
 
 import com.study.kotlinboard.domain.Post
+import com.study.kotlinboard.exception.PostListNotFoundException
 import com.study.kotlinboard.exception.PostNotDeletableException
 import com.study.kotlinboard.exception.PostNotFoundException
 import com.study.kotlinboard.exception.PostNotUpdatableException
@@ -117,6 +118,52 @@ class PostServiceTest(
                 )
                 then("삭제할 수 없는 게시물입니다. 예외가 발생한다.") {
                     shouldThrow<PostNotDeletableException> { postService.deletePost(saved2.id, "삭제자") }
+                }
+            }
+        }
+        given("게시글 상세 조회 시") {
+            postRepository.save(
+                Post(
+                    title = "제목",
+                    content = "내용",
+                    createdBy = "작성자",
+                ),
+            )
+            When("게시글이 존재 하면") {
+                val post = postService.readPost(1L)
+                then("게시글이 정상적으로 조회됨을 확인한다.") {
+                    post shouldNotBe null
+                    post.title shouldBe "제목"
+                    post.content shouldBe "내용"
+                    post.createdBy shouldBe "작성자"
+                    post.createdAt shouldNotBe null
+                }
+            }
+            When("게시글이 없을 때") {
+                then("게시글을 찾을 수 없다라는 예외가 발생한다.") {
+                    shouldThrow<PostNotFoundException> { postService.readPost(9999L) }
+                }
+            }
+        }
+        given("게시글 목록 조회 시") {
+            When("게시글이 존재 하면") {
+                postRepository.save(
+                    Post(
+                        title = "제목",
+                        content = "내용",
+                        createdBy = "작성자",
+                    ),
+                )
+                val posts = postService.readPosts()
+                then("게시글 목록이 정상적으로 조회됨을 확인한다.") {
+                    posts shouldNotBe null
+                    posts.size shouldBeGreaterThan 0
+                }
+            }
+            When("게시글이 없을 때") {
+                then("게시글 목록이 없습니다라는 예외가 발생한다.") {
+                    postRepository.deleteAll()
+                    shouldThrow<PostListNotFoundException> { postService.readPosts() }
                 }
             }
         }
