@@ -5,6 +5,8 @@ import com.study.kotlinboard.controller.dto.PostDetailResponse
 import com.study.kotlinboard.controller.dto.PostSearchRequest
 import com.study.kotlinboard.controller.dto.PostSummaryResponse
 import com.study.kotlinboard.controller.dto.PostUpdateRequest
+import com.study.kotlinboard.controller.dto.toDto
+import com.study.kotlinboard.service.PostService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -13,15 +15,18 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class PostController {
+class PostController(
+    private val postService: PostService,
+) {
     @PostMapping("/posts")
     fun createPost(
         @RequestBody post: PostCreateRequest,
     ): Long {
-        return 1L
+        return postService.createPost(post.toDto())
     }
 
     @PutMapping("/posts/{id}")
@@ -29,14 +34,15 @@ class PostController {
         @RequestBody post: PostUpdateRequest,
         @PathVariable id: Long,
     ): Long {
-        return 1L
+        return postService.updatePost(id, post.toDto())
     }
 
     @DeleteMapping("/posts/{id}")
     fun deletePost(
         @PathVariable id: Long,
+        @RequestParam deletedBy: String,
     ): Long {
-        return 1L
+        return postService.deletePost(id, deletedBy)
     }
 
     @GetMapping("/posts/{id}")
