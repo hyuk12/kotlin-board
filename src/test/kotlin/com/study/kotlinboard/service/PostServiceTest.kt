@@ -1,7 +1,6 @@
 package com.study.kotlinboard.service
 
 import com.study.kotlinboard.domain.Post
-import com.study.kotlinboard.exception.PostListNotFoundException
 import com.study.kotlinboard.exception.PostNotDeletableException
 import com.study.kotlinboard.exception.PostNotFoundException
 import com.study.kotlinboard.exception.PostNotUpdatableException
@@ -205,7 +204,7 @@ class PostServiceTest(
         }
         given("게시글 목록조회 시") {
             When("정상 조회 시") {
-                val postPage = postService.findPageBy(PageRequest.of(0,5), PostSearchRequestDto())
+                val postPage = postService.findPageBy(PageRequest.of(0, 5), PostSearchRequestDto())
                 then("게시글이 페이지가 반환된다.") {
                     postPage.number shouldBe 0
                     postPage.size shouldBe 5
@@ -216,7 +215,7 @@ class PostServiceTest(
             }
             When("타이틀로 검색") {
                 then("타이틀에 해당하는 게시글이 반환된다.") {
-                    val postPage = postService.findPageBy(PageRequest.of(0,5), PostSearchRequestDto(title = "제목1"))
+                    val postPage = postService.findPageBy(PageRequest.of(0, 5), PostSearchRequestDto(title = "제목1"))
                     postPage.number shouldBe 0
                     postPage.size shouldBe 5
                     postPage.content.size shouldBe 5
@@ -226,12 +225,12 @@ class PostServiceTest(
             }
             When("작성자로 검색") {
                 then("작성자에 해당하는 게시글이 반환된다.") {
-                    val postPage = postService.findPageBy(PageRequest.of(0,5), PostSearchRequestDto(createdBy = "작성자2"))
+                    val postPage = postService.findPageBy(PageRequest.of(0, 5), PostSearchRequestDto(createdBy = "작성자2"))
                     postPage.number shouldBe 0
                     postPage.size shouldBe 5
                     postPage.content.size shouldBe 5
                     postPage.content[0].title shouldContain "제목2"
-                    postPage.content[0].createdBy shouldBe  "작성자2"
+                    postPage.content[0].createdBy shouldBe "작성자2"
                 }
             }
         }

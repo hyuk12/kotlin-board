@@ -11,15 +11,17 @@ data class PostSummaryResponse(
     val createdAt: String,
 )
 
-fun Page<PostSummaryResponseDto>.toResponse() = PageImpl(
-    content.map { it.toResponse() },
-    pageable,
-    totalElements,
-)
+fun Page<PostSummaryResponseDto>.toResponse() =
+    PageImpl(
+        content.map { it.toResponse() },
+        pageable,
+        totalElements,
+    )
 
-fun PostSummaryResponseDto.toResponse() = PostSummaryResponse(
-    id = id,
-    title = title,
-    createdBy = createdBy,
-    createdAt = createdAt,
-)
+fun PostSummaryResponseDto.toResponse() =
+    PostSummaryResponse(
+        id = id,
+        title = title,
+        createdBy = createdBy,
+        createdAt = createdAt,
+    )

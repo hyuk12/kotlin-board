@@ -1,6 +1,5 @@
 package com.study.kotlinboard.service
 
-import com.study.kotlinboard.controller.dto.PostDetailResponse
 import com.study.kotlinboard.domain.Post
 import com.study.kotlinboard.exception.PostNotDeletableException
 import com.study.kotlinboard.exception.PostNotFoundException

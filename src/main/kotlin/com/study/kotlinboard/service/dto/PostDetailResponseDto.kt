@@ -11,10 +11,11 @@ data class PostDetailResponseDto(
     val createdAt: LocalDateTime,
 )
 
-fun Post.toDetailResponseDto() = PostDetailResponseDto(
-    id = id,
-    title = title,
-    content = content,
-    createdBy = createdBy,
-    createdAt = createdAt,
-)
+fun Post.toDetailResponseDto() =
+    PostDetailResponseDto(
+        id = id,
+        title = title,
+        content = content,
+        createdBy = createdBy,
+        createdAt = createdAt,
+    )
