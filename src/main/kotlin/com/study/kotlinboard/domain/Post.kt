@@ -4,10 +4,12 @@ import com.study.kotlinboard.controller.dto.PostDetailResponse
 import com.study.kotlinboard.controller.dto.PostSummaryResponse
 import com.study.kotlinboard.exception.PostNotUpdatableException
 import com.study.kotlinboard.service.dto.PostUpdateRequestDto
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.OneToMany
 
 @Entity
 class Post(
@@ -22,6 +24,10 @@ class Post(
     var title: String = title
         protected set
     var content: String = content
+        protected set
+
+    @OneToMany(mappedBy = "post", orphanRemoval = true, cascade = [CascadeType.ALL])
+    var comments: MutableList<Comment> = mutableListOf()
         protected set
 
     fun update(postUpdateRequestDto: PostUpdateRequestDto) {
