@@ -12,7 +12,7 @@ class Comment(
     content: String,
     post: Post,
     createdBy: String,
-): BaseEntity(createdBy = createdBy) {
+) : BaseEntity(createdBy = createdBy) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0
