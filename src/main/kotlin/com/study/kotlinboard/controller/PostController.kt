@@ -6,9 +6,7 @@ import com.study.kotlinboard.controller.dto.PostSearchRequest
 import com.study.kotlinboard.controller.dto.PostSummaryResponse
 import com.study.kotlinboard.controller.dto.PostUpdateRequest
 import com.study.kotlinboard.controller.dto.toDto
-import com.study.kotlinboard.domain.toDetailResponse
-import com.study.kotlinboard.domain.toSummaryResponse
-import com.study.kotlinboard.exception.PostListNotFoundException
+import com.study.kotlinboard.controller.dto.toResponse
 import com.study.kotlinboard.service.PostService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -52,14 +50,13 @@ class PostController(
     fun getPost(
         @PathVariable id: Long,
     ): PostDetailResponse {
-        return postService.readPost(id).toDetailResponse()
+        return postService.getPost(id).toResponse()
     }
 
     @GetMapping("/posts")
     fun getPosts(pageable: Pageable, postSearchRequest: PostSearchRequest): Page<PostSummaryResponse> {
         println("title: ${postSearchRequest.title}")
         println("createdBy: ${postSearchRequest.createdBy}")
-        return postService.readPosts(pageable, postSearchRequest.toDto())?.map { it.toSummaryResponse() }
-            ?: throw PostListNotFoundException()
+        return postService.findPageBy(pageable, postSearchRequest.toDto()).toResponse()
     }
 }
